@@ -16,7 +16,8 @@ router.post(
         const formData = {
             text: req.body.text,
             username: req.body.username,
-            hashtags: req.body.hashtags
+            hashtags: req.body.hashtags,
+            image: req.body.image
         };
         // console.log(
         //     'From the user', formData
@@ -28,8 +29,26 @@ router.post(
 
         res.send('Your POST has been received')
     }   
-)
+);
 
+router.post(
+    '/likessss',
+    (req, res) => {
+
+        const formData = {
+            likes: req.body.likes
+        }
+        // Use FeedsModel to find the user
+        FeedsModel.find ( 
+            { email: 'rinshad@gmail.com' },           
+            function ( err, document ) {}                          
+        )
+
+        // Update the likes array
+        const newLikesArray = new FeedsModel(likes);
+        FeedsModel.updateOne({ email: 'rinshad@gmail.com' }, { likes: newLikesArray});
+    }
+)
 
 // A GET route for fetching data from the 'feeds' collection
 router.get(
@@ -52,7 +71,7 @@ router.get(
             }
         )
     }
-)
+);
 
 // Export the router
 module.exports = router;

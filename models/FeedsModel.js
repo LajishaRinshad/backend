@@ -17,10 +17,13 @@ const FeedsSchema = new mongoose.Schema(
         image: {
             type: String
         },
+        likes: {
+            type: Array
+        },
         profilePicture: {
             type: String,
+            default: 'https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg' 
             // to give a default image if user doesn't give it
-            // default: 'http://....'
         },
         date: {
             type: Date,
