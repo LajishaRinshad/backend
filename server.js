@@ -7,6 +7,9 @@ const mongoose = require('mongoose');
 // Import body-parser inside your server
 const bodyParser = require('body-parser');
 
+// Import dotenv
+require('dotenv').config();
+
 // Import passport
 const passport = require('passport');
 
@@ -14,8 +17,11 @@ const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
+// Import cors
+const cors = require('cors');
+
 // The same secret in routes/ UserRoutes will be needed to read the jsonwebtoken
-const secret = "1s2c3r4t5";
+const secret = process.env.SECRET;
 
 // We need the UsersModel to find the user in the database
 const UsersModel = require('./models/UsersModel');
@@ -57,6 +63,7 @@ const passportJwt = (passport) => {
 const ProductsRoutes = require('./routes/ProductsRoutes');
 const FeedsRoutes = require('./routes/FeedsRoutes');
 const UsersRoutes = require('./routes/UsersRoutes');
+const EmailsRoutes = require('./routes/EmailsRoutes');
 
 // This was done to know how to import datase models. This is not needed now since we imported them to the corresponding routes
 // // Import database models
@@ -73,11 +80,13 @@ server.use(bodyParser.json());
 
 server.use(passport.initialize());
 
+server.use(cors());
+
 // Invoke passportJwt and pass passport npm package as argument
 passportJwt(passport);
 
 // Enter your database connection url
-const dbURL = "mongodb+srv://lajisha:mongodb147@cluster0-yv1en.mongodb.net/feeds?retryWrites=true&w=majority";
+const dbURL = process.env.DB_URL;
 
 mongoose.connect(
     dbURL,
@@ -112,6 +121,12 @@ server.use(
     '/users',
     UsersRoutes
 )
+
+server.use(
+    '/emails',
+    EmailsRoutes
+)
+
 
 // Just for demo purpose, not required
 // // A GET route for fetching data from the 'products' collection

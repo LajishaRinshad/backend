@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const secret = "1s2c3r4t5";
+require('dotenv').config();
+const secret = process.env.SECRET;
 
 const UsersModel = require('../models/UsersModel');
 
@@ -41,11 +42,11 @@ router.post(
 
                                 // If something goes wrong, send error
                                 if(err) {
-                                    res.send(err)
+                                    res.json ({message:err})
                                 } 
                                 // Otherwise, send success message
                                 else {
-                                    res.send('User has been saved!')
+                                    res.json({message:'User has been saved!'})
                                 }
                             }
                         );
@@ -81,7 +82,7 @@ router.post(
                 // Step 2b. If email doesn't match, reject the login request
 
                 if (!document) {
-                    res.send ("Please check email or password")
+                    res.json ({message:"Please check email or password"})
                 }
 
                 // Step 3. If there's matching email, examine the document's password
@@ -109,7 +110,7 @@ router.post(
                                     payload,
                                     secret,
                                     (err, jsonwebtoken) => {
-                                        res.send(
+                                        res.json(
                                             {
                                                 msg: 'Login successful',
                                                 jsonwebtoken: jsonwebtoken
@@ -124,7 +125,7 @@ router.post(
                             // Step 5b. If password doesn't match, reject the login request
 
                             else {
-                                res.send ("Please check email or password")
+                                res.json ({message:"Please check email or password"})
                             }
 
                         }

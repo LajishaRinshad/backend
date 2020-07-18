@@ -8,8 +8,7 @@ const FeedsSchema = new mongoose.Schema(
             required: true
         },
         username: {
-            type: String,
-            required: true
+            type: String
         },
         hashtags: {
             type: Array
@@ -17,9 +16,9 @@ const FeedsSchema = new mongoose.Schema(
         image: {
             type: String
         },
-        likes: {
-            type: Array
-        },
+        likes: [{
+            type: mongoose.Schema.Types.ObjectId
+        }],
         profilePicture: {
             type: String,
             default: 'https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg' 
